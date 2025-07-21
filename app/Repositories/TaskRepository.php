@@ -27,6 +27,17 @@ class TaskRepository
         return Task::create([...$params->toArray(), 'user_id' => $authUser->id]);
     }
 
+    public function update(User $authUser, int $id, TaskCreateParamDto $params): Task
+    {
+        $task = Task::where('id', $id)
+            ->where('user_id', $authUser->id)
+            ->firstOrFail();
+
+        $task->update($params->toArray());
+
+        return $task;
+    }
+
     public function delete(User $authUser, int $id): void
     {
         $task = Task::where('id', $id)
@@ -40,6 +51,7 @@ class TaskRepository
         $query->select([
             'id',
             'title',
+            'description',
             'priority',
             'status',
             'created_at',

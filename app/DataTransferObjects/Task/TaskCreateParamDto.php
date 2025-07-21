@@ -33,6 +33,8 @@ readonly class TaskCreateParamDto extends Dto
         return [
             'title' => $this->title,
             'description' => $this->description,
+            'priority' => $this->priority,
+            'status' => $this->status,
         ];
     }
 }

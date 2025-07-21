@@ -34,7 +34,6 @@ class TaskController extends Controller
 
     public function store(StoreRequest $request): RedirectResponse
     {
-        // dd($request->all()); // Debugging line, remove in production
         $authUser = $request->user();
         $params = TaskCreateParamDto::fromRequest($request);
 
@@ -43,9 +42,18 @@ class TaskController extends Controller
         return back();
     }
 
+    public function update(StoreRequest $request, int $id): RedirectResponse
+    {
+        $authUser = $request->user();
+        $params = TaskCreateParamDto::fromRequest($request);
+
+        $this->taskService->updateTask($authUser, $id, $params);
+
+        return back();
+    }
+
     public function destroy(int $id): RedirectResponse
     {
-        // dd($id); // Debugging line, remove in production
         $authUser = auth()->user();
         $this->taskService->deleteTask($authUser, $id);
 

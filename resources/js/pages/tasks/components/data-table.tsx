@@ -14,10 +14,8 @@ import * as React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { router } from '@inertiajs/react';
 import { FilterType, LinksType, MetaType } from './columns';
-import AddUpdateTaskDialog from './dialog';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -51,31 +49,6 @@ export function DataTable<TData, TValue>({ columns, data, links, meta, filters, 
     //TODO: use debounce for search input
     return (
         <div>
-            <div className="mb-4 flex w-full items-center justify-between py-4">
-                <Input
-                    placeholder="Search tasks..."
-                    className="max-w-sm"
-                    onChange={(e) => {
-                        router.get(
-                            route('tasks.index'),
-                            {
-                                search: e.target.value,
-                                sort: filters.sort,
-                                direction: filters.direction,
-                                perPage: filters.perPage,
-                                page: filters.page,
-                            },
-                            {
-                                preserveState: true,
-                                preserveScroll: true,
-                                preserveUrl: true,
-                                replace: true, // Use replace to avoid adding to history
-                            },
-                        );
-                    }}
-                />
-                <AddUpdateTaskDialog priorityOptions={priorityOptions} statusOptions={statusOptions} />
-            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -117,9 +90,6 @@ export function DataTable<TData, TValue>({ columns, data, links, meta, filters, 
                         variant={link.active ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => {
-                            // console.log(link);
-                            // console.log(meta);
-                            // console.log(filters);
                             if (link.url) {
                                 router.get(
                                     link.url,
@@ -133,7 +103,7 @@ export function DataTable<TData, TValue>({ columns, data, links, meta, filters, 
                                         preserveState: true,
                                         preserveScroll: true,
                                         preserveUrl: true,
-                                        replace: true, // Use replace to avoid adding to history
+                                        replace: true,
                                     },
                                 );
                             }

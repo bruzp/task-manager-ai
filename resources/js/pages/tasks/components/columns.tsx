@@ -20,6 +20,7 @@ import { useState } from 'react';
 export type TaskType = {
     id: string;
     title: string;
+    description: string;
     priority: string;
     status: string;
     created_at: Date;
@@ -57,7 +58,7 @@ export type FilterType = {
 };
 
 //TODO: Fix sorting arrow icons.
-export const columns = (filters: FilterType): ColumnDef<TaskType>[] => [
+export const columns = (filters: FilterType, onEdit: (task: TaskType) => void): ColumnDef<TaskType>[] => [
     {
         accessorKey: 'title',
         header: ({ column }) => {
@@ -71,7 +72,7 @@ export const columns = (filters: FilterType): ColumnDef<TaskType>[] => [
                         router.get(
                             route('tasks.index'),
                             {
-                                page: 1, // Reset to first page on sort
+                                page: 1,
                                 sort: 'title',
                                 direction: column.getIsSorted() === 'asc' ? 'asc' : 'desc',
                             },
@@ -110,7 +111,7 @@ export const columns = (filters: FilterType): ColumnDef<TaskType>[] => [
                         router.get(
                             route('tasks.index'),
                             {
-                                page: 1, // Reset to first page on sort
+                                page: 1,
                                 sort: 'priority',
                                 direction: column.getIsSorted() === 'asc' ? 'asc' : 'desc',
                             },
@@ -149,7 +150,7 @@ export const columns = (filters: FilterType): ColumnDef<TaskType>[] => [
                         router.get(
                             route('tasks.index'),
                             {
-                                page: 1, // Reset to first page on sort
+                                page: 1,
                                 sort: 'status',
                                 direction: column.getIsSorted() === 'asc' ? 'asc' : 'desc',
                             },
@@ -233,7 +234,7 @@ export const columns = (filters: FilterType): ColumnDef<TaskType>[] => [
 
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => onEdit(row.original)}>Edit</DropdownMenuItem>
                             <DropdownMenuItem
                                 onSelect={() => {
                                     setTimeout(() => setOpen(true), 10);

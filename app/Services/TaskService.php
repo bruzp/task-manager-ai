@@ -19,9 +19,12 @@ class TaskService
 
     public function storeTask(User $authUser, TaskCreateParamDto $params): void
     {
-        // Logic to create a task
-        // This could involve validation, setting defaults, etc.
         $this->taskRepository->store($authUser, $params);
+    }
+
+    public function updateTask(User $authUser, int $id, TaskCreateParamDto $params): void
+    {
+        $this->taskRepository->update($authUser, $id, $params);
     }
 
     public function deleteTask(User $authUser, int $id): void
