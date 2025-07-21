@@ -84,7 +84,7 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
           <form onSubmit={task ? updateTask : addTask} className="space-y-6">
             <DialogHeader>
               <DialogTitle>{task ? 'Edit' : 'Add'} Task</DialogTitle>
-              <DialogDescription>Create/Update a new task by filling out the form below.</DialogDescription>
+              <DialogDescription>{task ? 'Edit task details.' : 'Create a new task by filling out the form below.'}</DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-4">

@@ -1,4 +1,4 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { Column, ColumnDef } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,7 @@ import { router } from '@inertiajs/react';
 import ColumnActions from './column-actions';
 import { FilterType, TaskType } from './types';
 
-const handleSort = (column: any, filters: FilterType, setFilters: (filters: FilterType) => void) => {
+const handleSort = (column: Column<TaskType>, filters: FilterType, setFilters: (filters: FilterType) => void) => {
   column.toggleSorting(column.getIsSorted() === 'asc');
 
   const updatedFilters = {
@@ -27,7 +27,6 @@ const handleSort = (column: any, filters: FilterType, setFilters: (filters: Filt
   });
 };
 
-//TODO: Fix sorting arrow icons.
 export const columns = (filters: FilterType, setFilters: (filters: FilterType) => void, onEdit: (task: TaskType) => void): ColumnDef<TaskType>[] => [
   {
     accessorKey: 'title',
@@ -94,6 +93,9 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
       }).format(new Date(row.getValue('created_at')));
 
       return <div className="text-right font-medium">{formatted}</div>;
@@ -107,6 +109,9 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
       }).format(new Date(row.getValue('updated_at')));
 
       return <div className="text-right font-medium">{formatted}</div>;
