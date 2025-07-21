@@ -1,11 +1,12 @@
-import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import React from 'react';
-import { columns, FilterType, LinksType, MetaType, TaskType } from './components/columns';
+import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
 import AddUpdateTaskDialog from './components/dialog';
+import SearchInput from './components/search';
+import { FilterType, LinksType, MetaType, TaskType } from './components/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,7 +15,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// TODO: transfer somewhere better
 export type TasksProps = {
     tasks: {
         data: TaskType[];
@@ -29,6 +29,7 @@ export type TasksProps = {
 export default function Tasks({ tasks, filters, priorityOptions, statusOptions }: TasksProps) {
     const [open, setOpen] = React.useState(false);
     const [toEditTask, setToEditTask] = React.useState<TaskType | null>(null);
+    const [filtersState, setFiltersState] = React.useState<FilterType>(filters);
 
     const handleEditTask = (task: TaskType) => {
         setToEditTask(task);
@@ -40,28 +41,7 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
             <Head title="Tasks" />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="mt-4 flex w-full items-center justify-between">
-                    <Input
-                        placeholder="Search tasks..."
-                        className="max-w-sm"
-                        onChange={(e) => {
-                            router.get(
-                                route('tasks.index'),
-                                {
-                                    search: e.target.value,
-                                    sort: filters.sort,
-                                    direction: filters.direction,
-                                    perPage: filters.perPage,
-                                    page: filters.page,
-                                },
-                                {
-                                    preserveState: true,
-                                    preserveScroll: true,
-                                    preserveUrl: true,
-                                    replace: true,
-                                },
-                            );
-                        }}
-                    />
+                    <SearchInput filters={filtersState} setFilters={setFiltersState} />
                     <AddUpdateTaskDialog
                         task={toEditTask}
                         setToEditTask={setToEditTask}
@@ -73,13 +53,10 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
                 </div>
 
                 <DataTable
-                    columns={columns(filters, handleEditTask)}
+                    columns={columns(filtersState, setFiltersState, handleEditTask)}
                     data={tasks.data}
-                    links={tasks.links}
                     meta={tasks.meta}
-                    filters={filters}
-                    priorityOptions={priorityOptions}
-                    statusOptions={statusOptions}
+                    filters={filtersState}
                 />
             </div>
         </AppLayout>

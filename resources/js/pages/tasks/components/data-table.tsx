@@ -15,19 +15,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { FilterType, LinksType, MetaType } from './columns';
+import { FilterType, MetaType } from './types';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    links: LinksType;
     meta: MetaType;
     filters: FilterType;
-    priorityOptions?: string[];
-    statusOptions?: string[];
 }
 
-export function DataTable<TData, TValue>({ columns, data, links, meta, filters, priorityOptions, statusOptions }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, meta, filters }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
@@ -46,7 +43,6 @@ export function DataTable<TData, TValue>({ columns, data, links, meta, filters, 
         },
     });
 
-    //TODO: use debounce for search input
     return (
         <div>
             <div className="rounded-md border">

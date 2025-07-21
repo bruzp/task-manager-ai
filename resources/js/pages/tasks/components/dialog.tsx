@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler, useEffect } from 'react';
 import { toast } from 'sonner';
-import { TaskType } from './columns';
+import { TaskType } from './types';
 
 type AddUpdateTaskDialogProps = {
     task?: TaskType | null;
@@ -20,7 +20,7 @@ type AddUpdateTaskDialogProps = {
 };
 
 export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOpen, priorityOptions, statusOptions }: AddUpdateTaskDialogProps) {
-    const { data, setData, post, put, reset, processing, errors, recentlySuccessful } = useForm({
+    const { data, setData, post, put, reset, processing, errors } = useForm({
         title: '',
         description: '',
         priority: '',
