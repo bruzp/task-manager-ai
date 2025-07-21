@@ -26,8 +26,8 @@ class StoreRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'priority' => ['required', 'string', 'in:' . implode(',', PriorityEnum::toArray())],
-            'status' => ['required', 'string', 'in:' . implode(',', StatusEnum::toArray())],
+            'priority' => ['required', 'string', 'in:'.implode(',', PriorityEnum::toArray())],
+            'status' => ['required', 'string', 'in:'.implode(',', StatusEnum::toArray())],
         ];
     }
 }

@@ -42,4 +42,13 @@ class TaskController extends Controller
 
         return back();
     }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        // dd($id); // Debugging line, remove in production
+        $authUser = auth()->user();
+        $this->taskService->deleteTask($authUser, $id);
+
+        return back();
+    }
 }

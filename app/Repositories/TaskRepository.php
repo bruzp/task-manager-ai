@@ -27,6 +27,14 @@ class TaskRepository
         return Task::create([...$params->toArray(), 'user_id' => $authUser->id]);
     }
 
+    public function delete(User $authUser, int $id): void
+    {
+        $task = Task::where('id', $id)
+            ->where('user_id', $authUser->id)
+            ->firstOrFail();
+        $task->delete();
+    }
+
     private function selectQuery(Builder $query): void
     {
         $query->select([

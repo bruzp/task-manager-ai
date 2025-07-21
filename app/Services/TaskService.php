@@ -23,4 +23,9 @@ class TaskService
         // This could involve validation, setting defaults, etc.
         $this->taskRepository->store($authUser, $params);
     }
+
+    public function deleteTask(User $authUser, int $id): void
+    {
+        $this->taskRepository->delete($authUser, $id);
+    }
 }
