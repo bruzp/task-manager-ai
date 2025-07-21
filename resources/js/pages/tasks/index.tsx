@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -19,7 +18,7 @@ export type TasksProps = {
         links: LinksType;
         meta: MetaType;
     };
-    filters: FilterType,
+    filters: FilterType;
     priorityOptions?: string[];
     statusOptions?: string[];
 };
@@ -28,7 +27,7 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Tasks" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <DataTable
                     columns={columns(filters)}
                     data={tasks.data}
