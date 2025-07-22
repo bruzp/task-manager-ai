@@ -4,6 +4,8 @@ export type TaskType = {
   description: string;
   priority: string;
   status: string;
+  due_date?: Date | null;
+  remarks?: string | null;
   created_at: Date;
   updated_at: Date;
 };

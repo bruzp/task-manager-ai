@@ -52,7 +52,14 @@ class TaskRepository
      */
     public function getRelevantTasks(User $authUser): Collection
     {
-        return Task::select('id', 'title', 'priority', 'status')
+        return Task::select([
+            'id',
+            'title',
+            'priority',
+            'status',
+            'due_date',
+            'remarks',
+        ])
             ->where('user_id', $authUser->id)
             ->whereIn('status', ['pending', 'in_progress'])
             ->where('created_at', '>=', now()->subMonths(3))
@@ -69,6 +76,8 @@ class TaskRepository
             'description',
             'priority',
             'status',
+            'due_date',
+            'remarks',
             'created_at',
             'updated_at',
         ]);

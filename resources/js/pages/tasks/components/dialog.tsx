@@ -25,6 +25,8 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
     description: '',
     priority: '',
     status: '',
+    due_date: null as Date | null,
+    remarks: '',
   });
 
   useEffect(() => {
@@ -34,6 +36,8 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
         description: task.description,
         priority: task.priority,
         status: task.status,
+        due_date: task.due_date ? new Date(task.due_date) : null,
+        remarks: task.remarks || '',
       });
     } else {
       reset();
@@ -132,6 +136,37 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
                   </SelectContent>
                 </Select>
                 <InputError message={errors.status} />
+              </div>
+
+              {/* TODO: Fix bug on due date, saved date is not the same as when I input it
+                  Then change the datetime picker */}
+              <div className="grid gap-3">
+                <Label htmlFor="due_date">Due Date</Label>
+                <Input
+                  type="datetime-local"
+                  id="due_date"
+                  name="due_date"
+                  value={data.due_date ? new Date(data.due_date).toISOString().slice(0, 16) : ''}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    setData('due_date', val ? new Date(val) : null);
+                  }}
+                  placeholder="Optional due date"
+                  className="w-[180px]"
+                />
+                <InputError message={errors.due_date} />
+              </div>
+
+              <div className="grid gap-3">
+                <Label htmlFor="remarks">Remarks</Label>
+                <Textarea
+                  id="remarks"
+                  name="remarks"
+                  value={data.remarks || ''}
+                  onChange={(e) => setData('remarks', e.target.value)}
+                  placeholder="Optional remarks about the task"
+                />
+                <InputError message={errors.remarks} />
               </div>
             </div>
 

@@ -6,6 +6,7 @@ use App\DataTransferObjects\Dto;
 use App\Enum\PriorityEnum;
 use App\Enum\StatusEnum;
 use App\Http\Requests\Task\StoreRequest;
+use Illuminate\Support\Carbon;
 
 readonly class TaskCreateParamDto extends Dto
 {
@@ -14,6 +15,8 @@ readonly class TaskCreateParamDto extends Dto
         public ?string $description,
         public PriorityEnum $priority,
         public StatusEnum $status,
+        public ?Carbon $dueDate,
+        public ?string $remarks = null
     ) {}
 
     public static function fromRequest(StoreRequest $request): self
@@ -25,6 +28,8 @@ readonly class TaskCreateParamDto extends Dto
             description: $validated['description'] ?? null,
             priority: PriorityEnum::from($validated['priority']),
             status: StatusEnum::from($validated['status']),
+            dueDate: isset($validated['due_date']) ? Carbon::parse($validated['due_date']) : null,
+            remarks: $validated['remarks'] ?? null
         );
     }
 
@@ -35,6 +40,8 @@ readonly class TaskCreateParamDto extends Dto
             'description' => $this->description,
             'priority' => $this->priority,
             'status' => $this->status,
+            'due_date' => $this->dueDate?->toIso8601String(),
+            'remarks' => $this->remarks,
         ];
     }
 }
