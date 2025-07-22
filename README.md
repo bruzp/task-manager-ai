@@ -15,7 +15,7 @@ An intelligent task management system built with Laravel, Inertia, and React —
 
 ## 🛠️ Stack
 
-- **Backend**: Laravel 10
+- **Backend**: Laravel 12
 - **Frontend**: React + Inertia.js
 - **AI Integration**: [Ollama](https://ollama.com) + `gemma3:1b` model
 - **UI**: [shadcn/ui](https://ui.shadcn.com) + Tailwind CSS
