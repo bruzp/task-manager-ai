@@ -7,6 +7,7 @@ use App\DataTransferObjects\Task\TaskSearchParamDto;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskRepository
@@ -44,6 +45,20 @@ class TaskRepository
             ->where('user_id', $authUser->id)
             ->firstOrFail();
         $task->delete();
+    }
+
+    /**
+     * Get tasks relevant to the user, such as pending or in-progress tasks created in the last 3 months.
+     */
+    public function getRelevantTasks(User $authUser): Collection
+    {
+        return Task::select('id', 'title', 'priority', 'status')
+            ->where('user_id', $authUser->id)
+            ->whereIn('status', ['pending', 'in_progress'])
+            ->where('created_at', '>=', now()->subMonths(3))
+            ->orderByDesc('created_at')
+            ->limit(100)
+            ->get();
     }
 
     private function selectQuery(Builder $query): void

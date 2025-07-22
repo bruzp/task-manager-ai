@@ -17,7 +17,7 @@ class TestSeeder extends Seeder
         Task::truncate();
 
         User::factory()
-            ->has(Task::factory()->count(200))
+            ->has(Task::factory()->count(500))
             ->create([
                 'name' => 'bruce',
                 'email' => 'bruce@test.com',

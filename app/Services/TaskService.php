@@ -6,6 +6,7 @@ use App\DataTransferObjects\Task\TaskCreateParamDto;
 use App\DataTransferObjects\Task\TaskSearchParamDto;
 use App\Models\User;
 use App\Repositories\TaskRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class TaskService
@@ -30,5 +31,10 @@ class TaskService
     public function deleteTask(User $authUser, int $id): void
     {
         $this->taskRepository->delete($authUser, $id);
+    }
+
+    public function getRelevantTasks(User $authUser): Collection
+    {
+        return $this->taskRepository->getRelevantTasks($authUser);
     }
 }

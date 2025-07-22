@@ -2,6 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import React from 'react';
+import ChatBox from './components/chat-box';
 import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
 import AddUpdateTaskDialog from './components/dialog';
@@ -53,6 +54,8 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
         </div>
 
         <DataTable columns={columns(filtersState, setFiltersState, handleEditTask)} data={tasks.data} meta={tasks.meta} filters={filtersState} />
+
+        <ChatBox />
       </div>
     </AppLayout>
   );

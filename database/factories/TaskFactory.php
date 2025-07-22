@@ -37,6 +37,8 @@ class TaskFactory extends Factory
             'description' => fake()->paragraph(),
             'priority' => $priorities->random(),
             'status' => $statuses->random(),
+            'created_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => fake()->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }
