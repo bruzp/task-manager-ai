@@ -28,6 +28,8 @@ class StoreRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'priority' => ['required', 'string', 'in:'.implode(',', PriorityEnum::toArray())],
             'status' => ['required', 'string', 'in:'.implode(',', StatusEnum::toArray())],
+            'due_date' => ['nullable', 'date', 'after_or_equal:today'],
+            'remarks' => ['nullable', 'string'],
         ];
     }
 }

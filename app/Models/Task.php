@@ -18,6 +18,8 @@ use Illuminate\Support\Carbon;
  * @property string $description
  * @property PriorityEnum $priority
  * @property StatusEnum $status
+ * @property Carbon|null $due_date
+ * @property string|null $remarks
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -38,6 +40,8 @@ class Task extends Model
         'description',
         'priority',
         'status',
+        'due_date',
+        'remarks',
     ];
 
     /**
