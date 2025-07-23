@@ -63,24 +63,24 @@ class AITaskController extends Controller
     private function aiResponseRules(): string
     {
         return <<<'EOT'
-            Response in bullet points:
-            - Do not mention the data source.
-            - Focus on the user's query and the provided data.
-            - Use the data provided to generate a response.
-            - Ensure the response is concise and relevant to the user's query.
-            - If the data is insufficient, politely inform the user.
-            - Do not include any additional information or context outside of the provided data.
-            - Format the response in a way that is easy to read and understand.
-            - Use markdown formatting for better readability.
-            - Do not include any code blocks or technical jargon.
-            - Focus on providing actionable insights or summaries based on the tasks data.
-            - Ensure the response is in a friendly and helpful tone.
-            - If the user asks for a specific task, provide details about that task.
-            - If the user asks for a summary, provide a concise overview of the tasks.
-            - If the user asks for a list, provide a bullet-point list of relevant tasks.
-            - If the user asks for a status update, provide the current status of relevant tasks.
-            - If the user asks for a priority update, provide the priority levels of relevant tasks.
-            - If the user asks for a specific date, provide tasks related to that date.
+            Response rules (in bullet points):
+
+            - Stay focused on the user's query and the provided data only.
+            - Generate responses strictly based on the data given.
+            - Keep replies concise, relevant, and easy to read.
+            - If data is missing or incomplete, inform the user politely.
+            - Do not add outside context or extra information.
+            - Use clear markdown formatting (no code blocks or technical jargon).
+            - Maintain a friendly and helpful tone.
+
+            Respond according to the query type:
+            - **Specific task** → Provide key details.
+            - **Summary** → Give a concise overview of tasks.
+            - **List** → Return bullet-pointed list of relevant tasks.
+            - **Status update** → Report current task statuses.
+            - **Priority update** → Report task priority levels.
+            - **Date-based** → Show tasks related to the given date.
+            - **No match** → Let the user know no relevant tasks were found.
             EOT;
     }
 }
