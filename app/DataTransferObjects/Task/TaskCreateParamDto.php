@@ -28,7 +28,7 @@ readonly class TaskCreateParamDto extends Dto
             description: $validated['description'] ?? null,
             priority: PriorityEnum::from($validated['priority']),
             status: StatusEnum::from($validated['status']),
-            dueDate: isset($validated['due_date']) ? Carbon::parse($validated['due_date']) : null,
+            dueDate: isset($validated['due_date']) ? Carbon::parse($validated['due_date'])->timezone(config('app.timezone')) : null,
             remarks: $validated['remarks'] ?? null
         );
     }

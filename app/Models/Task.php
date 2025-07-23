@@ -54,6 +54,7 @@ class Task extends Model
         return [
             'priority' => PriorityEnum::class,
             'status' => StatusEnum::class,
+            'due_date' => 'datetime',
         ];
     }
 

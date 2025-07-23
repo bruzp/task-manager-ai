@@ -1,11 +1,15 @@
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm } from '@inertiajs/react';
+import { ChevronDownIcon } from 'lucide-react';
+import * as React from 'react';
 import { FormEventHandler, useEffect } from 'react';
 import { toast } from 'sonner';
 import { TaskType } from './types';
@@ -20,6 +24,7 @@ type AddUpdateTaskDialogProps = {
 };
 
 export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOpen, priorityOptions, statusOptions }: AddUpdateTaskDialogProps) {
+  const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
   const { data, setData, post, put, reset, processing, errors } = useForm({
     title: '',
     description: '',
@@ -83,7 +88,15 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
       >
         Add Task
       </Button>
-      <Dialog open={isOpen} onOpenChange={setOpen}>
+      <Dialog
+        open={isOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsCalendarOpen(false);
+          }
+          setOpen(open);
+        }}
+      >
         <DialogContent className="lg:max-w-3xl">
           <form onSubmit={task ? updateTask : addTask} className="space-y-6">
             <DialogHeader>
@@ -138,23 +151,54 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
                 <InputError message={errors.status} />
               </div>
 
-              {/* TODO: Fix bug on due date, saved date is not the same as when I input it
-                  Then change the datetime picker */}
-              <div className="grid gap-3">
-                <Label htmlFor="due_date">Due Date</Label>
-                <Input
-                  type="datetime-local"
-                  id="due_date"
-                  name="due_date"
-                  value={data.due_date ? new Date(data.due_date).toISOString().slice(0, 16) : ''}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setData('due_date', val ? new Date(val) : null);
-                  }}
-                  placeholder="Optional due date"
-                  className="w-[180px]"
-                />
-                <InputError message={errors.due_date} />
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-3">
+                  <Label htmlFor="date-picker" className="px-1">
+                    Date
+                  </Label>
+                  <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen} modal={isOpen}>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline" id="date-picker" className="w-32 justify-between font-normal">
+                        {data.due_date ? data.due_date.toLocaleDateString() : 'Select date'}
+                        <ChevronDownIcon />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={data.due_date ?? undefined}
+                        captionLayout="dropdown"
+                        onSelect={(date) => {
+                          setData('due_date', date ?? null);
+                          setIsCalendarOpen(false);
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <InputError message={errors.due_date} />
+                </div>
+                <div className="flex flex-col gap-3">
+                  <Label htmlFor="time-picker" className="px-1">
+                    Time
+                  </Label>
+                  <Input
+                    type="time"
+                    id="time-picker"
+                    step="1"
+                    defaultValue={data.due_date ? data.due_date.toTimeString().slice(0, 5) : ''}
+                    onChange={(e) => {
+                      if (data.due_date) {
+                        const [hours, minutes] = e.target.value.split(':');
+                        const updatedDate = new Date(data.due_date);
+                        updatedDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
+                        setData('due_date', updatedDate);
+
+                        console.log('Updated due date:', updatedDate);
+                      }
+                    }}
+                    className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  />
+                </div>
               </div>
 
               <div className="grid gap-3">
