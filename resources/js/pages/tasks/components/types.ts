@@ -1,3 +1,5 @@
+//TODO: move to another directory
+
 export type TaskType = {
   id: string;
   title: string;
