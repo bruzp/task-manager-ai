@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Prism\Prism\Enums\Provider;
 use Prism\Prism\Prism;
@@ -11,7 +12,7 @@ class AITaskController extends Controller
 {
     public function __construct(private readonly TaskService $taskService) {}
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
         $request->validate([
             'message' => ['required', 'string'],

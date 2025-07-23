@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DataTransferObjects\Task\TaskCreateParamDto;
 use App\DataTransferObjects\Task\TaskSearchParamDto;
+use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepository;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,6 +17,11 @@ class TaskService
     public function searchTasks(User $authUser, TaskSearchParamDto $params): LengthAwarePaginator
     {
         return $this->taskRepository->getTasks($authUser, $params);
+    }
+
+    public function getTaskById(User $authUser, int $id): Task
+    {
+        return $this->taskRepository->getTaskById($authUser, $id);
     }
 
     public function storeTask(User $authUser, TaskCreateParamDto $params): void

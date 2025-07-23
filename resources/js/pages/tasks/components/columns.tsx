@@ -86,8 +86,8 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
     },
   },
   {
-    accessorKey: 'created_at',
-    header: () => <div className="text-right">Created at</div>,
+    accessorKey: 'due_date',
+    header: () => <div className="text-right">Due Date</div>,
     cell: ({ row }) => {
       const formatted = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -96,23 +96,7 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,
-      }).format(new Date(row.getValue('created_at')));
-
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
-  {
-    accessorKey: 'updated_at',
-    header: () => <div className="text-right">Updated at</div>,
-    cell: ({ row }) => {
-      const formatted = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      }).format(new Date(row.getValue('updated_at')));
+      }).format(new Date(row.getValue('due_date')));
 
       return <div className="text-right font-medium">{formatted}</div>;
     },

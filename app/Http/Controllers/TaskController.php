@@ -10,6 +10,7 @@ use App\Http\Requests\Task\SearchRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Resources\Task\TaskResourceCollection;
 use App\Services\TaskService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -29,6 +30,17 @@ class TaskController extends Controller
             'statusOptions' => StatusEnum::toArray(),
             'priorityOptions' => PriorityEnum::toArray(),
             'filters' => $params->toArray(),
+        ]);
+    }
+
+    public function show(int $id): JsonResponse
+    {
+        $authUser = auth()->user();
+        $task = $this->taskService->getTaskById($authUser, $id);
+
+        // TODO: Add a resource for task details
+        return response()->json([
+            'task' => $task,
         ]);
     }
 

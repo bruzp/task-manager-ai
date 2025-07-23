@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import axios from 'axios';
 import React from 'react';
 import ChatBox from './components/chat-box';
 import { columns } from './components/columns';
@@ -32,9 +33,15 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
   const [toEditTask, setToEditTask] = React.useState<TaskType | null>(null);
   const [filtersState, setFiltersState] = React.useState<FilterType>(filters);
 
-  const handleEditTask = (task: TaskType) => {
-    setToEditTask(task);
-    setOpen(true);
+  // TODO: Show loading state while fetching task
+  const handleEditTask = async (task: TaskType) => {
+    try {
+      const { data } = await axios.get<{ task: TaskType }>(route('tasks.show', { id: task.id }));
+      setToEditTask(data.task);
+      setOpen(true);
+    } catch (e) {
+      console.error('Failed to fetch full task data', e);
+    }
   };
 
   return (

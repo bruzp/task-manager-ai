@@ -23,6 +23,13 @@ class TaskRepository
         return $query->paginate($params->perPage);
     }
 
+    public function getTaskById(User $authUser, int $id): Task
+    {
+        return Task::where('id', $id)
+            ->where('user_id', $authUser->id)
+            ->firstOrFail();
+    }
+
     public function store(User $authUser, TaskCreateParamDto $params): Task
     {
         return Task::create([...$params->toArray(), 'user_id' => $authUser->id]);
@@ -73,13 +80,9 @@ class TaskRepository
         $query->select([
             'id',
             'title',
-            'description',
             'priority',
             'status',
             'due_date',
-            'remarks',
-            'created_at',
-            'updated_at',
         ]);
     }
 
