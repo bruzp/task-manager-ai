@@ -55,13 +55,21 @@ class TaskRepository
         $task->delete();
     }
 
-    // TODO: Update to get more relevant tasks.
-    /**
-     * Get tasks relevant to the user, such as pending or in-progress tasks created in the last 3 months.
-     */
-    public function getRelevantTasks(User $authUser): Collection
+    public function getRelevantTasks(User $authUser, array $filters): Collection
     {
-        return Task::select([
+        $query = Task::query();
+
+        if (isset($filters['status'])) {
+            $query->where('status', $filters['status']);
+        } else {
+            $query->whereIn('status', [StatusEnum::PENDING, StatusEnum::IN_PROGRESS]);
+        }
+
+        if (isset($filters['priority'])) {
+            $query->where('priority', $filters['priority']);
+        }
+
+        return $query->select([
             'id',
             'title',
             'priority',
@@ -70,14 +78,17 @@ class TaskRepository
             'remarks',
         ])
             ->where('user_id', $authUser->id)
-            ->whereIn('status', ['pending', 'in_progress'])
-            ->where('created_at', '>=', now()->subMonths(3))
-            ->orderByDesc('created_at')
-            ->limit(100)
+            ->where(function (Builder $query) {
+                $query->where('created_at', '>=', now()->subMonths(3))
+                    ->orWhere('due_date', '>=', now())
+                    ->orWhereNull('due_date');
+            })
+            ->orderBy('due_date')
+            ->orderByDesc('priority')
+            ->limit(200)
             ->get();
     }
 
-    // TODO: Maybe split this method into smaller methods for better readability.
     public function getHighPriorityTasks(User $authUser, int $numTasks, StatusEnum $status): Collection
     {
         return Task::select([
@@ -89,8 +100,8 @@ class TaskRepository
         ])
             ->where('user_id', $authUser->id)
             ->where('status', $status)
-            ->orderByDesc('priority')
             ->orderBy('due_date')
+            ->orderByDesc('priority')
             ->limit($numTasks)
             ->get();
     }

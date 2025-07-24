@@ -25,6 +25,11 @@ class TaskService
         return $this->taskRepository->getTaskById($authUser, $id);
     }
 
+    public function getRelevantTasks(User $authUser, array $filters): Collection
+    {
+        return $this->taskRepository->getRelevantTasks($authUser, $filters);
+    }
+
     public function getHighPriorityTasks(User $authUser, int $numTasks, StatusEnum $status): Collection
     {
         return $this->taskRepository->getHighPriorityTasks($authUser, $numTasks, $status);
@@ -43,10 +48,5 @@ class TaskService
     public function deleteTask(User $authUser, int $id): void
     {
         $this->taskRepository->delete($authUser, $id);
-    }
-
-    public function getRelevantTasks(User $authUser): Collection
-    {
-        return $this->taskRepository->getRelevantTasks($authUser);
     }
 }

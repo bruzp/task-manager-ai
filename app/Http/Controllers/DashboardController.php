@@ -10,13 +10,15 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+    private const NUMBER_OF_TASKS = 10;
+
     public function __construct(private readonly TaskService $taskService) {}
 
     public function index(Request $request)
     {
-        $pendingTasks = $this->taskService->getHighPriorityTasks($request->user(), 5, StatusEnum::PENDING);
-        $inProgressTasks = $this->taskService->getHighPriorityTasks($request->user(), 5, StatusEnum::IN_PROGRESS);
-        $completedTasks = $this->taskService->getHighPriorityTasks($request->user(), 5, StatusEnum::COMPLETED);
+        $pendingTasks = $this->taskService->getHighPriorityTasks($request->user(), self::NUMBER_OF_TASKS, StatusEnum::PENDING);
+        $inProgressTasks = $this->taskService->getHighPriorityTasks($request->user(), self::NUMBER_OF_TASKS, StatusEnum::IN_PROGRESS);
+        $completedTasks = $this->taskService->getHighPriorityTasks($request->user(), self::NUMBER_OF_TASKS, StatusEnum::COMPLETED);
 
         return Inertia::render('dashboard', [
             'pendingTasks' => new TaskResource($pendingTasks),

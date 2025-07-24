@@ -52,6 +52,13 @@ return [
 
     'channels' => [
 
+        'ai_prompts' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/ai/ai_prompts.log'),
+            'level' => 'info',
+            'days' => env('LOG_DAILY_DAYS', 14),
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),

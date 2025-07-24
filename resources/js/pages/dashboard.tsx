@@ -22,7 +22,7 @@ function TaskList({ items }: { items: PartialTaskType[] }) {
   return (
     <ul className="space-y-2 text-sm">
       {items.length > 0 ? (
-        items.slice(0, 5).map((task) => (
+        items.map((task) => (
           <li key={task.id} className="rounded-md border bg-muted p-3 text-sm text-foreground shadow-sm">
             <div className="font-medium">{task.title}</div>
             <div className="mt-1 flex items-center justify-between text-xs text-muted-foreground">
