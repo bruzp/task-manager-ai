@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
 
+import { toast } from 'sonner';
 import { FilterType, TaskType } from '../types/task';
 import ColumnActions from './column-actions';
 
@@ -24,6 +25,10 @@ const handleSort = (column: Column<TaskType>, filters: FilterType, setFilters: (
     preserveScroll: true,
     preserveUrl: true,
     replace: true,
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : 'Failed to sort tasks');
+      console.error('Failed to sort tasks:', error);
+    },
   });
 };
 

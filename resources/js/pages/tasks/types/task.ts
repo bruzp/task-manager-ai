@@ -10,6 +10,8 @@ export type TaskType = {
   updated_at: Date;
 };
 
+export type PartialTaskType = Pick<TaskType, 'id' | 'title' | 'priority' | 'status' | 'due_date'>;
+
 export type LinksType = {
   first: string;
   last: string;

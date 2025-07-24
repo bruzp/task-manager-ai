@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
+import ReactMarkdown from 'react-markdown';
 import { FilterType, MetaType } from '../types/task';
 
 interface DataTableProps<TData, TValue> {
@@ -106,7 +107,7 @@ export function DataTable<TData, TValue>({ columns, data, meta, filters }: DataT
             }}
             disabled={!link.url}
           >
-            <span dangerouslySetInnerHTML={{ __html: link.label }} />
+            <ReactMarkdown>{link.label}</ReactMarkdown>
           </Button>
         ))}
       </div>

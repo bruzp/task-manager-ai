@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import axios from 'axios';
 import React from 'react';
+import { toast } from 'sonner';
 import ChatBox from './components/chat-box';
 import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
@@ -17,7 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export type TasksProps = {
+type TasksProps = {
   tasks: {
     data: TaskType[];
     links: LinksType;
@@ -39,6 +40,7 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
       setToEditTask(data.task);
       setOpen(true);
     } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Failed to fetch task data');
       console.error('Failed to fetch full task data', e);
     }
   };

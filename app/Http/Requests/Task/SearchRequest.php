@@ -23,7 +23,7 @@ class SearchRequest extends FormRequest
     {
         return [
             'search' => ['nullable', 'string', 'max:255'],
-            'sort' => ['nullable', 'string', 'in:title,priority,status,created_at'],
+            'sort' => ['nullable', 'string', 'in:title,priority,status,due_date'],
             'direction' => ['nullable', 'string', 'in:asc,desc'],
             'perPage' => ['nullable', 'integer', 'min:1', 'max:100'],
             'page' => ['nullable', 'integer', 'min:1'],

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\DataTransferObjects\Task\TaskCreateParamDto;
 use App\DataTransferObjects\Task\TaskSearchParamDto;
+use App\Enum\StatusEnum;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,6 +77,23 @@ class TaskRepository
             ->get();
     }
 
+    public function getHighPriorityTasks(User $authUser, int $numTasks, StatusEnum $status): Collection
+    {
+        return Task::select([
+            'id',
+            'title',
+            'priority',
+            'status',
+            'due_date',
+        ])
+            ->where('user_id', $authUser->id)
+            ->where('status', $status)
+            ->orderByDesc('priority')
+            ->orderBy('due_date')
+            ->limit($numTasks)
+            ->get();
+    }
+
     private function selectQuery(Builder $query): void
     {
         $query->select([
@@ -92,7 +110,7 @@ class TaskRepository
         if ($params->sort && $params->direction) {
             $query->orderBy($params->sort, $params->direction);
         } else {
-            $query->orderBy('due_date');
+            $query->orderByDesc('updated_at');
         }
     }
 

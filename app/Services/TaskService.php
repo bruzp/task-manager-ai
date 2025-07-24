@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DataTransferObjects\Task\TaskCreateParamDto;
 use App\DataTransferObjects\Task\TaskSearchParamDto;
+use App\Enum\StatusEnum;
 use App\Models\Task;
 use App\Models\User;
 use App\Repositories\TaskRepository;
@@ -22,6 +23,11 @@ class TaskService
     public function getTaskById(User $authUser, int $id): Task
     {
         return $this->taskRepository->getTaskById($authUser, $id);
+    }
+
+    public function getHighPriorityTasks(User $authUser, int $numTasks, StatusEnum $status): Collection
+    {
+        return $this->taskRepository->getHighPriorityTasks($authUser, $numTasks, $status);
     }
 
     public function storeTask(User $authUser, TaskCreateParamDto $params): void
