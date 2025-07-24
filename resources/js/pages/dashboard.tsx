@@ -10,6 +10,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
+// TODO: Implement actual dashboard content
 export default function Dashboard() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>

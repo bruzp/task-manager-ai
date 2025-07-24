@@ -12,7 +12,7 @@ import { ChevronDownIcon } from 'lucide-react';
 import * as React from 'react';
 import { FormEventHandler, useEffect } from 'react';
 import { toast } from 'sonner';
-import { TaskType } from './types';
+import { TaskType } from '../types/task';
 
 type AddUpdateTaskDialogProps = {
   task?: TaskType | null;

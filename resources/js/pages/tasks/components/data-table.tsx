@@ -15,7 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { FilterType, MetaType } from './types';
+import { FilterType, MetaType } from '../types/task';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

@@ -4,8 +4,8 @@ import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
 
+import { FilterType, TaskType } from '../types/task';
 import ColumnActions from './column-actions';
-import { FilterType, TaskType } from './types';
 
 const handleSort = (column: Column<TaskType>, filters: FilterType, setFilters: (filters: FilterType) => void) => {
   column.toggleSorting(column.getIsSorted() === 'asc');
@@ -87,7 +87,22 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
   },
   {
     accessorKey: 'due_date',
-    header: () => <div className="text-right">Due Date</div>,
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => handleSort(column, filters, setFilters)}>
+          Due Date
+          <span className="ml-2 h-4 w-4">
+            {column.getIsSorted() === 'asc' ? (
+              <ArrowUp className="h-4 w-4" />
+            ) : column.getIsSorted() === 'desc' ? (
+              <ArrowDown className="h-4 w-4" />
+            ) : (
+              <ArrowUpDown className="h-4 w-4 opacity-50" />
+            )}
+          </span>
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const formatted = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
@@ -98,7 +113,7 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
         hour12: true,
       }).format(new Date(row.getValue('due_date')));
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <span>{formatted}</span>;
     },
   },
   {

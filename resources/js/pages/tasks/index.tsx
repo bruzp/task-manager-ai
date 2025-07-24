@@ -8,7 +8,7 @@ import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
 import AddUpdateTaskDialog from './components/dialog';
 import SearchInput from './components/search';
-import { FilterType, LinksType, MetaType, TaskType } from './components/types';
+import { FilterType, LinksType, MetaType, TaskType } from './types/task';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -33,7 +33,6 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
   const [toEditTask, setToEditTask] = React.useState<TaskType | null>(null);
   const [filtersState, setFiltersState] = React.useState<FilterType>(filters);
 
-  // TODO: Show loading state while fetching task
   const handleEditTask = async (task: TaskType) => {
     try {
       const { data } = await axios.get<{ task: TaskType }>(route('tasks.show', { id: task.id }));

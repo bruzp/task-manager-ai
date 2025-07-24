@@ -54,7 +54,7 @@ class TaskRepository
         $task->delete();
     }
 
-    //TODO: Update to get more relevant tasks.
+    // TODO: Update to get more relevant tasks.
     /**
      * Get tasks relevant to the user, such as pending or in-progress tasks created in the last 3 months.
      */
@@ -92,7 +92,7 @@ class TaskRepository
         if ($params->sort && $params->direction) {
             $query->orderBy($params->sort, $params->direction);
         } else {
-            $query->orderByDesc('updated_at');
+            $query->orderBy('due_date');
         }
     }
 

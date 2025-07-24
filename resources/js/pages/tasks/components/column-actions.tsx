@@ -15,7 +15,7 @@ import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import { Row } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import React from 'react';
-import { TaskType } from './types';
+import { TaskType } from '../types/task';
 
 export default function ColumnActions({ row, onEdit }: { row: Row<TaskType>; onEdit: (task: TaskType) => void }) {
   const [open, setOpen] = React.useState(false);

@@ -8,6 +8,7 @@ use App\Enum\PriorityEnum;
 use App\Enum\StatusEnum;
 use App\Http\Requests\Task\SearchRequest;
 use App\Http\Requests\Task\StoreRequest;
+use App\Http\Resources\Task\TaskResource;
 use App\Http\Resources\Task\TaskResourceCollection;
 use App\Services\TaskService;
 use Illuminate\Http\JsonResponse;
@@ -38,9 +39,8 @@ class TaskController extends Controller
         $authUser = auth()->user();
         $task = $this->taskService->getTaskById($authUser, $id);
 
-        // TODO: Add a resource for task details
         return response()->json([
-            'task' => $task,
+            'task' => new TaskResource($task),
         ]);
     }
 

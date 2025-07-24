@@ -54,7 +54,7 @@ class AITaskController extends Controller
     private function sendPrompt(string $prompt): string
     {
         return Prism::text()
-            ->using(Provider::Ollama, 'gemma3:1b')
+            ->using(Provider::Ollama, config('prism.providers.ollama.model'))
             ->withPrompt($prompt)
             ->withClientOptions(['timeout' => 300])
             ->asText()
