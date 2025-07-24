@@ -39,15 +39,12 @@ function TaskList({ items }: { items: PartialTaskType[] }) {
 }
 
 type DashboardProps = {
-  pendingTasks: { data: PartialTaskType[] };
-  inProgressTasks: { data: PartialTaskType[] };
-  completedTasks: { data: PartialTaskType[] };
+  pendingTasks: PartialTaskType[];
+  inProgressTasks: PartialTaskType[];
+  completedTasks: PartialTaskType[];
 };
 
 export default function Dashboard({ pendingTasks, inProgressTasks, completedTasks }: DashboardProps) {
-  console.log('Pending Tasks:', pendingTasks.data);
-  console.log('In Progress Tasks:', inProgressTasks);
-  console.log('Completed Tasks:', completedTasks);
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Dashboard" />
@@ -61,7 +58,7 @@ export default function Dashboard({ pendingTasks, inProgressTasks, completedTask
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <TaskList items={pendingTasks.data} />
+              <TaskList items={pendingTasks} />
             </CardContent>
           </Card>
 
@@ -73,7 +70,7 @@ export default function Dashboard({ pendingTasks, inProgressTasks, completedTask
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <TaskList items={inProgressTasks.data} />
+              <TaskList items={inProgressTasks} />
             </CardContent>
           </Card>
 
@@ -85,7 +82,7 @@ export default function Dashboard({ pendingTasks, inProgressTasks, completedTask
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <TaskList items={completedTasks.data} />
+              <TaskList items={completedTasks} />
             </CardContent>
           </Card>
         </div>

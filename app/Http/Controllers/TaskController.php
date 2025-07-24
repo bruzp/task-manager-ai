@@ -34,7 +34,17 @@ class TaskController extends Controller
         ]);
     }
 
-    public function show(int $id): JsonResponse
+    public function show(int $id): Response
+    {
+        $authUser = auth()->user();
+        $task = $this->taskService->getTaskById($authUser, $id);
+
+        return Inertia::render('tasks/show', [
+            'task' => new TaskResource($task),
+        ]);
+    }
+
+    public function showData(int $id): JsonResponse
     {
         $authUser = auth()->user();
         $task = $this->taskService->getTaskById($authUser, $id);
@@ -64,11 +74,14 @@ class TaskController extends Controller
         return back();
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy(SearchRequest $request, int $id): RedirectResponse
     {
+        $params = TaskSearchParamDto::fromRequest($request);
+
         $authUser = auth()->user();
         $this->taskService->deleteTask($authUser, $id);
 
-        return back();
+        return redirect()
+            ->route('tasks.index', $params->toArray());
     }
 }

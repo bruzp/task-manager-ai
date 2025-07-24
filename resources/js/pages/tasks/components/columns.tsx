@@ -123,6 +123,6 @@ export const columns = (filters: FilterType, setFilters: (filters: FilterType) =
   },
   {
     id: 'actions',
-    cell: ({ row }) => <ColumnActions row={row} onEdit={onEdit} />,
+    cell: ({ row }) => <ColumnActions row={row} filters={filters} onEdit={onEdit} />,
   },
 ];

@@ -192,8 +192,6 @@ export default function AddUpdateTaskDialog({ task, setToEditTask, isOpen, setOp
                         const updatedDate = new Date(data.due_date);
                         updatedDate.setHours(parseInt(hours, 10), parseInt(minutes, 10));
                         setData('due_date', updatedDate);
-
-                        console.log('Updated due date:', updatedDate);
                       }
                     }}
                     className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"

@@ -36,7 +36,7 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
 
   const handleEditTask = async (task: TaskType) => {
     try {
-      const { data } = await axios.get<{ task: TaskType }>(route('tasks.show', { id: task.id }));
+      const { data } = await axios.get<{ task: TaskType }>(route('tasks.show.data', { id: task.id }));
       setToEditTask(data.task);
       setOpen(true);
     } catch (e) {
@@ -61,7 +61,13 @@ export default function Tasks({ tasks, filters, priorityOptions, statusOptions }
           />
         </div>
 
-        <DataTable columns={columns(filtersState, setFiltersState, handleEditTask)} data={tasks.data} meta={tasks.meta} filters={filtersState} />
+        <DataTable
+          columns={columns(filtersState, setFiltersState, handleEditTask)}
+          data={tasks.data}
+          meta={tasks.meta}
+          filters={filtersState}
+          setFilters={setFiltersState}
+        />
 
         <ChatBox />
       </div>

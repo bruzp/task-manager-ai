@@ -10,14 +10,15 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { router } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
 import { Row } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import React from 'react';
-import { TaskType } from '../types/task';
+import { toast } from 'sonner';
+import { FilterType, TaskType } from '../types/task';
 
-export default function ColumnActions({ row, onEdit }: { row: Row<TaskType>; onEdit: (task: TaskType) => void }) {
+export default function ColumnActions({ row, filters, onEdit }: { row: Row<TaskType>; filters: FilterType; onEdit: (task: TaskType) => void }) {
   const [open, setOpen] = React.useState(false);
 
   const handleDelete = () => {
@@ -26,10 +27,13 @@ export default function ColumnActions({ row, onEdit }: { row: Row<TaskType>; onE
         id: row.original.id,
       }),
       {
-        preserveState: true,
+        data: filters,
         preserveScroll: true,
         preserveUrl: true,
         replace: true,
+        onSuccess: () => {
+          toast.success('Task deleted');
+        },
       },
     );
   };
@@ -46,6 +50,9 @@ export default function ColumnActions({ row, onEdit }: { row: Row<TaskType>; onE
 
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link href={route('tasks.show', { id: row.original.id })}>View</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => onEdit(row.original)}>Edit</DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => {

@@ -23,9 +23,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   meta: MetaType;
   filters: FilterType;
+  setFilters: (filters: FilterType) => void;
 }
 
-export function DataTable<TData, TValue>({ columns, data, meta, filters }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, meta, filters, setFilters }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
@@ -88,21 +89,20 @@ export function DataTable<TData, TValue>({ columns, data, meta, filters }: DataT
             size="sm"
             onClick={() => {
               if (link.url) {
-                router.get(
-                  link.url,
-                  {
-                    sort: filters.sort,
-                    direction: filters.direction,
-                    perPage: filters.perPage,
-                    search: filters.search,
-                  },
-                  {
-                    preserveState: true,
-                    preserveScroll: true,
-                    preserveUrl: true,
-                    replace: true,
-                  },
-                );
+                const page = new URL(link.url).searchParams.get('page');
+                const updatedFilters = {
+                  ...filters,
+                  page: page ? parseInt(page, 10) : 1,
+                };
+
+                setFilters(updatedFilters);
+
+                router.get(route('tasks.index'), updatedFilters, {
+                  preserveState: true,
+                  preserveScroll: true,
+                  preserveUrl: true,
+                  replace: true,
+                });
               }
             }}
             disabled={!link.url}
