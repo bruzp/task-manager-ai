@@ -20,6 +20,7 @@ class TaskController extends Controller
 {
     public function __construct(private readonly TaskService $taskService) {}
 
+    // TODO: Implement tests
     public function index(SearchRequest $request): Response
     {
         $authUser = $request->user();
