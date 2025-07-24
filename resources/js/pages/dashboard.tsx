@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { CheckCircle, Clock, Loader2 } from 'lucide-react';
 import { PartialTaskType } from './tasks/types/task';
 
@@ -23,13 +23,17 @@ function TaskList({ items }: { items: PartialTaskType[] }) {
     <ul className="space-y-2 text-sm">
       {items.length > 0 ? (
         items.map((task) => (
-          <li key={task.id} className="rounded-md border bg-muted p-3 text-sm text-foreground shadow-sm">
+          <Link
+            key={task.id}
+            href={route('tasks.show', { id: task.id })}
+            className="block rounded-md border bg-muted p-3 text-sm text-foreground shadow-sm hover:bg-accent"
+          >
             <div className="font-medium">{task.title}</div>
             <div className="mt-1 flex items-center justify-between text-xs text-muted-foreground">
               <PriorityBadge level={task.priority} />
               <span>Due: {task.due_date ? new Date(task.due_date).toLocaleDateString() : '—'}</span>
             </div>
-          </li>
+          </Link>
         ))
       ) : (
         <li className="text-muted-foreground italic">No tasks</li>
