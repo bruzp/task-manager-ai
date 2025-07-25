@@ -8,13 +8,12 @@ beforeEach(function () {
     $this->user = User::factory()->create();
 });
 
-// TODO: Examine the response propties and structure
-// This will help ensure that the Inertia response contains the expected data structure and properties.
-
-// TODO: Check why task created  here is in UTC not Asia/Manila timezone.
-// Maybe add .env.test and set timezone to Asia/Manila.
-
 test('task screen can be rendered', function () {
+    Task::factory()
+        ->for($this->user)
+        ->count(10)
+        ->create();
+
     $response = $this
         ->actingAs($this->user)
         ->get(route('tasks.index'));
@@ -23,10 +22,32 @@ test('task screen can be rendered', function () {
         ->assertInertia(
             fn (AssertableInertia $page) => $page
                 ->component('tasks/index')
-                ->has('tasks')
+                ->has(
+                    'tasks',
+                    fn (AssertableInertia $page) => $page
+                        ->has('data')
+                        ->has('data.0', fn (AssertableInertia $page) => $page
+                            ->has('id')
+                            ->has('title')
+                            ->has('priority')
+                            ->has('status')
+                            ->has('due_date')
+                        )
+                        ->has('links')
+                        ->has('meta')
+                        ->etc()
+                )
                 ->has('statusOptions')
                 ->has('priorityOptions')
-                ->has('filters')
+                ->has(
+                    'filters',
+                    fn (AssertableInertia $page) => $page
+                        ->where('search', null)
+                        ->where('sort', null)
+                        ->where('direction', null)
+                        ->where('perPage', 10)
+                        ->where('page', 1)
+                )
         )
         ->assertOk();
 });
@@ -44,7 +65,18 @@ test('task detail screen can be rendered', function () {
         ->assertInertia(
             fn (AssertableInertia $page) => $page
                 ->component('tasks/show')
-                ->has('task')
+                ->has(
+                    'task',
+                    fn (AssertableInertia $page) => $page
+                        ->where('id', $task->id)
+                        ->where('title', $task->title)
+                        ->where('description', $task->description)
+                        ->where('priority', $task->priority)
+                        ->where('status', $task->status)
+                        ->where('due_date', $task->due_date->toISOString())
+                        ->where('remarks', $task->remarks)
+                        ->etc()
+                )
         )
         ->assertOk();
 });
