@@ -8,6 +8,8 @@ use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+// TODO: add github worflows
+
 class DashboardController extends Controller
 {
     private const NUMBER_OF_TASKS = 10;
