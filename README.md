@@ -28,53 +28,112 @@ An intelligent task management system built with Laravel, Inertia, and React —
 
 ### 🔧 Requirements
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (with WSL/Ubuntu integration)
-- [Ollama](https://ollama.com/download)
-- PHP >= 8.1 (handled via Sail)
-- Node.js + npm/yarn (for frontend assets)
+- Docker Desktop (with WSL/Ubuntu integration enabled)
+- Ollama installed locally
+- Git
 
 ---
 
-### ✅ Setup Steps
+### ✅ First-Time Setup
 
-1. **Clone the repo**
+1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/task-manager-ai.git
    cd task-manager-ai
    ```
 
-2. **Install Laravel dependencies**
+2. **Build Docker images**
+
+   ```bash
+   docker compose build --no-cache
+   ```
+
+3. **Install PHP dependencies**
+
+   ```bash
+   docker compose run --rm app composer install
+   ```
+
+4. **Create environment file**
+
    ```bash
    cp .env.example .env
-   ./vendor/bin/sail up -d
-   ./vendor/bin/sail composer install
-   ./vendor/bin/sail artisan key:generate
-   ./vendor/bin/sail artisan migrate
    ```
 
-3. **Install JS dependencies**
+5. **Start containers**
+
    ```bash
-   npm install && npm run dev
+   docker compose up -d
    ```
 
-4. **Launch Laravel Sail**
+6. **Generate application key**
+
    ```bash
-   ./vendor/bin/sail up
+   docker compose exec app php artisan key:generate
    ```
+
+7. **Configure database settings**
+
+   Update the `.env` file with your database credentials if needed.
+
+8. **Run migrations and seeders**
+
+   ```bash
+   docker compose exec app php artisan migrate --seed
+   ```
+
+9. **Install frontend dependencies**
+
+   ```bash
+   docker compose exec node npm install
+   ```
+
+10. **Access the application**
+
+Open your browser and visit:
+
+```
+http://localhost:8000
+```
+
+---
+
+### 🔄 Daily Development Workflow
+
+Start containers:
+
+```bash
+docker compose up -d
+```
+
+Run frontend dev server (if not auto-running):
+
+```bash
+docker compose exec node npm run dev
+```
+
+Stop containers:
+
+```bash
+docker compose down
+```
 
 ---
 
 ### 🤖 AI Setup (Ollama)
 
 1. **Install Ollama locally**  
-   → https://ollama.com/download
+   → <https://ollama.com/download>
 
 2. **Add the Gemma model**
+
    ```bash
    ollama pull gemma3:1b
    ```
 
 3. **Run the model**
+
    ```bash
    ollama run gemma3:1b
    ```
@@ -91,6 +150,7 @@ An intelligent task management system built with Laravel, Inertia, and React —
 ---
 
 ## 📸 Screenshots
+
 ![alt text](image.png)
 ---
 
