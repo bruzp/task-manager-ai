@@ -1,0 +1,5 @@
+CREATE DATABASE IF NOT EXISTS tmadb;
+CREATE DATABASE IF NOT EXISTS tmadb_test;
+
+GRANT ALL PRIVILEGES ON tmadb.* TO 'tmauser'@'%';
+GRANT ALL PRIVILEGES ON tmadb_test.* TO 'tmauser'@'%';
