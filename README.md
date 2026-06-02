@@ -82,13 +82,7 @@ An intelligent task management system built with Laravel, Inertia, and React —
    docker compose exec app php artisan migrate --seed
    ```
 
-9. **Install frontend dependencies**
-
-   ```bash
-   docker compose exec node npm install
-   ```
-
-10. **Access the application**
+9. **Access the application**
 
 Open your browser and visit:
 
