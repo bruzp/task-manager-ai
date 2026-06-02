@@ -38,7 +38,7 @@ An intelligent task management system built with Laravel, Inertia, and React —
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/task-manager-ai.git
+   git clone https://github.com/bruzp/task-manager-ai.git
    cd task-manager-ai
    ```
 
