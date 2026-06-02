@@ -17,10 +17,9 @@ An intelligent task management system built with Laravel, Inertia, and React —
 
 - **Backend**: Laravel 12
 - **Frontend**: React + Inertia.js
-- **AI Integration**: [Ollama](https://ollama.com) + `gemma3:1b` model
+- **AI Integration**: [Ollama](https://ollama.com) + `qwen2.5:0.5b` model  (Dockerized)
 - **UI**: [shadcn/ui](https://ui.shadcn.com) + Tailwind CSS
 - **Markdown rendering**: react-markdown
-- **Syntax highlighting**: [Prism](https://prismphp.com/providers/ollama.html)
 
 ---
 
@@ -73,7 +72,7 @@ An intelligent task management system built with Laravel, Inertia, and React —
    docker compose exec app php artisan key:generate
    ```
 
-7. **Configure database settings**
+7. **Configure database settings** (Optional)
 
    Update the `.env` file with your database credentials if needed.
 
@@ -118,34 +117,6 @@ Stop containers:
 ```bash
 docker compose down
 ```
-
----
-
-### 🤖 AI Setup (Ollama)
-
-1. **Install Ollama locally**  
-   → <https://ollama.com/download>
-
-2. **Add the Gemma model**
-
-   ```bash
-   ollama pull gemma3:1b
-   ```
-
-3. **Run the model**
-
-   ```bash
-   ollama run gemma3:1b
-   ```
-
-> ⚠️ The AI chat assistant requires the model to be running locally via Ollama.
-
----
-
-## 🌟 Special Mentions
-
-- [**PrismPHP**](https://prismphp.com/providers/ollama.html) — for advanced AI + Laravel integration.
-- [**Ollama**](https://ollama.com) — seamless local LLM runtime.
 
 ---
 

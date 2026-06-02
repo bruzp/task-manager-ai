@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'ollama' => [
+        'host' => env('OLLAMA_HOST', 'http://ollama:11434'),
+        'model' => env('OLLAMA_MODEL', 'qwen2.5:0.5b'),
+    ],
 ];
